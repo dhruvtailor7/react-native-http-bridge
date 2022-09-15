@@ -69,7 +69,10 @@ public class Server extends NanoHTTPD {
     private WritableMap fillRequestMap(IHTTPSession session, String requestId) throws Exception {
         Method method = session.getMethod();
         WritableMap request = Arguments.createMap();
-        request.putString("url", session.getUri());
+        String params = session.getQueryParameterString();
+        String uri = session.getUri() + (params != null ? "?" + params : "");
+        
+        request.putString("url", uri);
         request.putString("type", method.name());
         request.putString("requestId", requestId);
         
